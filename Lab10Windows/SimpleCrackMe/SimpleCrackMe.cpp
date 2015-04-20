@@ -7,27 +7,13 @@
 
 #include <stdio.h>
 
-#define DEBUGLINE fprintf(stderr, "DBG: %d\n", __LINE__)
+#define DEBUGLINE fprintf(stderr, "\nDBG: %d", __LINE__)
 
 BOOL doCheck(char user[], unsigned char* key);
 
-#define JUNK_CODE_ONE        \
-    __asm{push eax}            \
-    __asm{xor eax, eax}        \
-    __asm{setpo al}            \
-    __asm{push edx}            \
-    __asm{xor edx, eax}        \
-    __asm{sal edx, 2}        \
-    __asm{xchg eax, edx}    \
-    __asm{pop edx}            \
-    __asm{or eax, ecx}        \
-    __asm{pop eax}
+int k = 127;
+int u = 31;
 
-inline int AddSubOne(int One, int Two)
-{
-	JUNK_CODE_ONE
-		return ((One + Two) - 1);
-}
 BOOL doCheckConvert(char user[], char keychars[]) {
 
 	//DEBUGLINE;
@@ -62,24 +48,42 @@ BOOL doCheck(char user[], unsigned char* key) {
 	HCRYPTHASH hHash = 0;
 	BOOL bResult = FALSE;
 
-	bResult = CryptAcquireContext(&hProv, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT);
+	bResult = CryptAcquireContext(
+		&hProv,					//OUT HCRYPTPROV *phProv
+		NULL,					//IN LPCTSTR pszContainter
+		NULL,					//IN LPCTSTR pszProvider
+		PROV_RSA_FULL,			//IN DWORD dwProvType - finda  CSP with these characteristics
+		CRYPT_VERIFYCONTEXT);	//IN DWORD dwFlags
 	if (!bResult) {
 		return FALSE;
 	}
 
 	//DEBUGLINE;
 
-	bResult = CryptCreateHash(hProv, CALG_SHA1, 0, 0, &hHash);
+	bResult = CryptCreateHash(
+		hProv,							//IN HCRYPTPROV hProv
+		CALG_SHA1,						//IN ALG_ID Algid //0x00008004 = CALG_SHA and CALG_SHA1
+		0,								//IN HCRYPTKEY hKey
+		0,								//IN DWORD dwFlags
+		&hHash);						//OUT HCRYPTHASH *phHash
 	if (!bResult) {
-		CryptReleaseContext(hProv, 0);
+		CryptReleaseContext(
+			hProv,				//IN HCRYPTPROV hProv
+			0);					//DWORD dwFlags //always == 0
 		return FALSE;
 	}
 
 	//DEBUGLINE;
 
-	bResult = CryptHashData(hHash, (const BYTE*)user, strlen(user), 0);
+	bResult = CryptHashData(
+		hHash,					//IN HCRYPTHASH hHash
+		(const BYTE*)user,		//IN BYTE *pbData
+		strlen(user),			//IN DWORD dwDataLen
+		0);						//IN DWORD dwFlags
 	if (!bResult) {
-		CryptReleaseContext(hProv, 0);
+		CryptReleaseContext(
+			hProv,				//IN HCRYPTPROV hProv
+			0);					//DWORD dwFlags //always == 0
 		CryptDestroyHash(hHash);
 		return FALSE;
 	}
@@ -88,83 +92,88 @@ BOOL doCheck(char user[], unsigned char* key) {
 
 	BYTE sha1Data[20] = { 0 };
 	DWORD cbHash = sizeof(sha1Data);
-	bResult = CryptGetHashParam(hHash, HP_HASHVAL, sha1Data, &cbHash, 0);
+	bResult = CryptGetHashParam(
+		hHash,					//IN HCRYPTHASH hHash
+		HP_HASHVAL,				//IN DWORD dwParam
+		sha1Data,				//OUT BYTE *pbData
+		&cbHash,				//INOUT DWORD *pdwDataLen
+		0);						//IN DWORD dwFlags
 	if (!bResult) {
-		CryptReleaseContext(hProv, 0);
+		CryptReleaseContext(
+			hProv,				//IN HCRYPTPROV hProv
+			0);					//DWORD dwFlags //always == 0
 		CryptDestroyHash(hHash);
 		return FALSE;
 	}
 
 	//DEBUGLINE;
 
-	CryptReleaseContext(hProv, 0);
+	CryptReleaseContext(
+		hProv,				//IN HCRYPTPROV hProv
+		0);					//DWORD dwFlags //always == 0
 	CryptDestroyHash(hHash);
 
 	//DEBUGLINE;
 
-#if 0
+	#if 0
 	printf("SHA1(user) = ");
 	for (int i = 0; i < cbHash; i++) {
 		printf("%02hhx", sha1Data[i]);
 	}
 	printf("\n");
-#endif
+	#endif
 
-	WORD checkSHA1 = 0;
-
-	for (int i = 0; i < cbHash; i++) {
-		checkSHA1 *= 31;
+	WORD checkSHA1 = 1;
+	for (int i = cbHash - 1; i >= 0; i--) {
+		checkSHA1 *= u;
 		checkSHA1 += sha1Data[i];
 	}
 
-	WORD checkKey = 0;
-	for (int i = 0; i < 16; i++) {
-		checkKey *= 127;
+	WORD checkKey = 1;
+	for (int i = 15; i >= 0; i--) {
+		checkKey *= k;
 		checkKey += key[i];
 	}
 
 #ifdef _DEBUG
-	printf("checkSHA1 = %04x, checkKey = %04x\n", checkSHA1, checkKey);
+	printf("checkSHA1 = %x, checkKey = %x\n", checkSHA1, checkKey);
 #endif
 
 	return checkSHA1 == checkKey;
 }
 
+void printKey(unsigned char* key) {
+	printf("Key: ");
+	for (int i = 0; i < 16; i++) {
+		printf("%02hhx", key[i]);
+	}
+	printf("\n");
+}
+
 int main(int argc, char* argv[])
 {
-/**
-If program is compiled in debug mode, run this section
-
-This segment generates a random key
-
-**/
-
 #ifdef _DEBUG
-	//goto DEHBUGGEH;
-	//DEHBUGGEH:
 	if (argc == 2) {
 		unsigned char key[16];
 		srand(time(NULL));
 		for (int i = 0; i < 16; i++) {
 			key[i] = rand();
 		}
-		//LOOP_DA_WOOP:
+
 		while (1) {
-			printf("Key: ");
-			for (int i = 0; i < 16; i++) {
-				printf("%02hhx", key[i]);
-			}
+			printKey(key);
 			printf(": ");
 			if (doCheck(argv[1], key)) {
 				break;
 			}
 			for (int i = 15; i >= 0; i--) {
+				printKey(key);
 				key[i]++;
 				if (key[i] != 0) break;
 			}
 			/*for (int i = 0; i < 16; i++) {
 				key[i] = rand();
-			}*/
+				}*/
 		}
 		printf("Found key: ");
 		for (int i = 0; i < 16; i++) {
@@ -174,23 +183,44 @@ This segment generates a random key
 		goto LAME_EXIT;
 	}
 #endif
-	goto ARG_CHECK;
-	DO_MATHS:
-	if (doCheckConvert(argv[1], argv[2])) {
-		printf("You're winner!\n");
+
+	BOOL exceptionHit = FALSE;
+	__try
+	{
+		__asm
+		{
+			pushfd
+			or dword ptr[esp], 0x100
+			popfd
+
+			nop
+		}
 	}
-	else {
-		printf("You lose");
+	__except (EXCEPTION_EXECUTE_HANDLER) {
+		exceptionHit = TRUE;
 	}
-	goto LAME_EXIT;
-	ARG_CHECK:
+
+	//printf("Check on debugger\n");
+	if (!exceptionHit) {
+		//printf("YOU'VE ACTIVATED MY TRAP CARD!\n");
+		u = u >> 3;
+		k = k << 3;
+	}
+
 	if (argc != 3) {
 		fprintf(stderr, "Please provide a username and key");
 		exit(-1);
 	}
-	goto DO_MATHS;
 
-	LAME_EXIT:
+	if (doCheckConvert(argv[1], argv[2])) {
+		printf("A WINNER IS YOU!\n");
+	}
+	else {
+		printf("You lose");
+	}
+
+LAME_EXIT:
 	getc(stdin);
 }
+
 
