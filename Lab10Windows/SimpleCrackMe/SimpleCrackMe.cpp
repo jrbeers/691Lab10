@@ -11,8 +11,8 @@
 
 BOOL doCheck(char user[], unsigned char* key);
 
-int k = 127;
-int u = 31;
+int k = 59;
+int u = 71;
 
 #define JUNK_CODE_ONE        \
     __asm{push eax}            \
