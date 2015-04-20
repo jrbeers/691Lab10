@@ -184,16 +184,36 @@ int main(int argc, char* argv[])
 	}
 #endif
 
+	//START RELEASE MODE MAIN SECTION:
+	goto TRAP_CARD;
+	
+
+DO_MATH:
+	if (doCheckConvert(argv[1], argv[2])) {
+		printf("A WINNER IS YOU!\n");
+	}
+	else {
+		printf("You lose");
+	}
+	goto LAME_EXIT;
+	ARG_CHECK:
+	if (argc != 3) {
+		fprintf(stderr, "Please provide a username and key");
+		exit(-1);
+	}
+	goto DO_MATH;
+
+TRAP_CARD:
 	BOOL exceptionHit = FALSE;
 	__try
 	{
 		__asm
 		{
 			pushfd
-			or dword ptr[esp], 0x100
-			popfd
+				or dword ptr[esp], 0x100
+				popfd
 
-			nop
+				nop
 		}
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER) {
@@ -206,19 +226,7 @@ int main(int argc, char* argv[])
 		u = u >> 3;
 		k = k << 3;
 	}
-
-	if (argc != 3) {
-		fprintf(stderr, "Please provide a username and key");
-		exit(-1);
-	}
-
-	if (doCheckConvert(argv[1], argv[2])) {
-		printf("A WINNER IS YOU!\n");
-	}
-	else {
-		printf("You lose");
-	}
-
+	goto ARG_CHECK;
 LAME_EXIT:
 	getc(stdin);
 }
