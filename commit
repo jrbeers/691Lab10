@@ -1,0 +1,14 @@
+added actual source code :/
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	new file:   Lab10Windows/Lab10Windows.sln
+#	new file:   Lab10Windows/SimpleCrackMe/ReadMe.txt
+#	new file:   Lab10Windows/SimpleCrackMe/SimpleCrackMe.cpp
+#	new file:   Lab10Windows/SimpleCrackMe/SimpleCrackMe.vcxproj
+#	new file:   Lab10Windows/SimpleCrackMe/SimpleCrackMe.vcxproj.filters
+#	new file:   release_default_asm_chart.JPG
+#
