@@ -14,6 +14,23 @@ BOOL doCheck(char user[], unsigned char* key);
 int k = 127;
 int u = 31;
 
+#define JUNK_CODE_ONE        \
+    __asm{push eax}            \
+    __asm{xor eax, eax}        \
+    __asm{setpo al}            \
+    __asm{push edx}            \
+    __asm{xor edx, eax}        \
+    __asm{sal edx, 2}        \
+    __asm{xchg eax, edx}    \
+    __asm{pop edx}            \
+    __asm{or eax, ecx}        \
+    __asm{pop eax}
+
+inline int AddSubOne(int One, int Two)
+{
+	JUNK_CODE_ONE
+		return ((One + Two) - 1);
+}
 BOOL doCheckConvert(char user[], char keychars[]) {
 
 	//DEBUGLINE;
