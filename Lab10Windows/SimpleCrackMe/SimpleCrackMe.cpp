@@ -31,6 +31,14 @@ inline int AddSubOne(int One, int Two)
 	JUNK_CODE_ONE
 		return ((One + Two) - 1);
 }
+
+void randomInserts(){
+	srand(time(NULL));
+	int i = rand() % 3;
+	if (i == 0){
+		int j = AddSubOne(rand(), rand());
+	}
+}
 BOOL doCheckConvert(char user[], char keychars[]) {
 
 	//DEBUGLINE;
@@ -202,17 +210,19 @@ int main(int argc, char* argv[])
 #endif
 
 	//START RELEASE MODE MAIN SECTION:
+	randomInserts;
 	goto TRAP_CARD;
 	
 
 DO_MATH:
-	AddSubOne(1, 4);
+	randomInserts;
 	if (doCheckConvert(argv[1], argv[2])) {
 		printf("A WINNER IS YOU!\n");
 	}
 	else {
 		printf("You lose");
 	}
+	randomInserts;
 	goto LAME_EXIT;
 	ARG_CHECK:
 	if (argc != 3) {
@@ -222,7 +232,7 @@ DO_MATH:
 	goto DO_MATH;
 
 TRAP_CARD:
-	AddSubOne(1, 4);
+	randomInserts;
 	BOOL exceptionHit = FALSE;
 	__try
 	{
@@ -245,6 +255,7 @@ TRAP_CARD:
 		u = u >> 3;
 		k = k << 3;
 	}
+	randomInserts;
 	goto ARG_CHECK;
 LAME_EXIT:
 	getc(stdin);
