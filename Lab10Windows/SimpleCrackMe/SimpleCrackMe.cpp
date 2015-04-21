@@ -8,12 +8,6 @@
 #include <stdio.h>
 
 #define DEBUGLINE fprintf(stderr, "\nDBG: %d", __LINE__)
-
-BOOL doCheck(char user[], unsigned char* key);
-
-int k = 59; //127 
-int u = 71; //31
-
 #define JUNK_CODE_ONE        \
     __asm{push eax}            \
     __asm{xor eax, eax}        \
@@ -25,6 +19,11 @@ int u = 71; //31
     __asm{pop edx}            \
     __asm{or eax, ecx}        \
     __asm{pop eax}
+
+BOOL doCheck(char user[], unsigned char* key);
+
+int k = 59; //127 
+int u = 71; //31
 
 inline int AddSubOne(int One, int Two)
 {
@@ -39,6 +38,7 @@ void randomInserts(){
 		int j = AddSubOne(rand(), rand());
 	}
 }
+
 BOOL doCheckConvert(char user[], char keychars[]) {
 
 	//DEBUGLINE;
@@ -140,13 +140,13 @@ BOOL doCheck(char user[], unsigned char* key) {
 
 	//DEBUGLINE;
 
-	#if 0
+#if 0
 	printf("SHA1(user) = ");
 	for (int i = 0; i < cbHash; i++) {
 		printf("%02hhx", sha1Data[i]);
 	}
 	printf("\n");
-	#endif
+#endif
 
 	WORD checkSHA1 = 1;
 	for (int i = cbHash - 1; i >= 0; i--) {
@@ -177,6 +177,7 @@ void printKey(unsigned char* key) {
 
 int main(int argc, char* argv[])
 {
+	int i = 0;
 #ifdef _DEBUG
 	if (argc == 2) {
 		unsigned char key[16];
@@ -186,7 +187,7 @@ int main(int argc, char* argv[])
 		}
 
 		while (1) {
-			printKey(key);
+			//printKey(key);
 			printf(": ");
 			if (doCheck(argv[1], key)) {
 				break;
@@ -197,8 +198,8 @@ int main(int argc, char* argv[])
 				if (key[i] != 0) break;
 			}
 			/*for (int i = 0; i < 16; i++) {
-				key[i] = rand();
-				}*/
+			key[i] = rand();
+			}*/
 		}
 		printf("Found key: ");
 		for (int i = 0; i < 16; i++) {
@@ -212,7 +213,7 @@ int main(int argc, char* argv[])
 	//START RELEASE MODE MAIN SECTION:
 	randomInserts;
 	goto TRAP_CARD;
-	
+
 
 DO_MATH:
 	randomInserts;
@@ -224,7 +225,7 @@ DO_MATH:
 	}
 	randomInserts;
 	goto LAME_EXIT;
-	ARG_CHECK:
+ARG_CHECK:
 	if (argc != 3) {
 		fprintf(stderr, "Please provide a username and key");
 		exit(-1);
@@ -233,7 +234,10 @@ DO_MATH:
 
 TRAP_CARD:
 	randomInserts;
+
 	BOOL exceptionHit = FALSE;
+
+	BOOL debugger = IsDebuggerPresent();
 	__try
 	{
 		__asm
