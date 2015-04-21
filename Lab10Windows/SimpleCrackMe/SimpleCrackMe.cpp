@@ -11,6 +11,7 @@
 #define JUNK_CODE_ONE        \
     __asm{push eax}            \
     __asm{xor eax, eax}        \
+	__asm{ror ecx}			\
     __asm{setpo al}            \
     __asm{push edx}            \
     __asm{xor edx, eax}        \
@@ -18,6 +19,7 @@
     __asm{xchg eax, edx}    \
     __asm{pop edx}            \
     __asm{or eax, ecx}        \
+	__asm{rol ecx}				\
     __asm{pop eax}
 
 BOOL doCheck(char user[], unsigned char* key);
