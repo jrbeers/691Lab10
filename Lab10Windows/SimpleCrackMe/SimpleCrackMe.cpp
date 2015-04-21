@@ -200,7 +200,8 @@ BOOL doCheck(char user[], unsigned char* key) {
 		checkKey += key[i];
 	}
 	*/
-	
+
+	//Comparison method Allows for MULTIPLE possible keys
 	WORD checkSHA1 = 1;
 	for (int i = cbHash - 1; i >= 0; i--) {
 		checkSHA1 *= u; //31
@@ -217,7 +218,7 @@ BOOL doCheck(char user[], unsigned char* key) {
 #ifdef _DEBUG
 	printf(" checkSHA1 = %x, checkKey = %x", checkSHA1, checkKey);
 #endif
-
+	//return "keys"
 	return checkSHA1 == checkKey;
 }
 
