@@ -11,8 +11,8 @@
 
 BOOL doCheck(char user[], unsigned char* key);
 
-int k = 59;
-int u = 71;
+int k = 59; //127 
+int u = 71; //31
 
 #define JUNK_CODE_ONE        \
     __asm{push eax}            \
@@ -206,6 +206,7 @@ int main(int argc, char* argv[])
 	
 
 DO_MATH:
+	AddSubOne(1, 4);
 	if (doCheckConvert(argv[1], argv[2])) {
 		printf("A WINNER IS YOU!\n");
 	}
@@ -221,6 +222,7 @@ DO_MATH:
 	goto DO_MATH;
 
 TRAP_CARD:
+	AddSubOne(1, 4);
 	BOOL exceptionHit = FALSE;
 	__try
 	{
