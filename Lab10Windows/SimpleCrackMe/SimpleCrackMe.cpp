@@ -288,6 +288,8 @@ TRAP_CARD:
 
 	BOOL exceptionHit = FALSE;
 
+	//calls isDebuggerPresent first to confuse them
+	//even if they jump over it, they may not jump over the Trap Flag too
 	BOOL debugger = IsDebuggerPresent();
 	__try
 	{
@@ -304,6 +306,14 @@ TRAP_CARD:
 		exceptionHit = TRUE;
 	}
 
+	//if the trap flag is not caught but the isdebuggerpresent is caught
+	//then still set it
+	if (!exceptionHit && debugger)
+	{
+		exceptionHit = FALSE;
+	}
+
+	//The Trap flag got executed
 	//printf("Check on debugger\n");
 	if (!exceptionHit) {
 		//printf("YOU'VE ACTIVATED MY TRAP CARD!\n");
