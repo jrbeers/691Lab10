@@ -40,14 +40,20 @@ void randomInserts(){
 }
 
 BOOL doCheckConvert(char user[], char keychars[]) {
-
+	int i = 0;
 	//DEBUGLINE;
 
 	if (strlen(keychars) != 32) {
 		return FALSE;
 	}
 
-	//DEBUGLINE;
+	if (4 != 5)
+	{
+		randomInserts;
+	}
+	else {
+		i = 64;
+	}
 
 	unsigned char key[16];
 
@@ -72,6 +78,7 @@ BOOL doCheck(char user[], unsigned char* key) {
 	HCRYPTPROV hProv = 0;
 	HCRYPTHASH hHash = 0;
 	BOOL bResult = FALSE;
+	int i = 0;
 
 	bResult = CryptAcquireContext(
 		&hProv,					//OUT HCRYPTPROV *phProv
@@ -84,6 +91,14 @@ BOOL doCheck(char user[], unsigned char* key) {
 	}
 
 	//DEBUGLINE;
+
+	if (87 == 6)
+	{
+		i = 62;
+	}
+	else {
+		randomInserts;
+	}
 
 	bResult = CryptCreateHash(
 		hProv,							//IN HCRYPTPROV hProv
@@ -114,6 +129,14 @@ BOOL doCheck(char user[], unsigned char* key) {
 	}
 
 	//DEBUGLINE;
+
+	if (47 == 8)
+	{
+		i = 21;
+	}
+	else {
+		randomInserts;
+	}
 
 	BYTE sha1Data[20] = { 0 };
 	DWORD cbHash = sizeof(sha1Data);
@@ -211,19 +234,40 @@ int main(int argc, char* argv[])
 #endif
 
 	//START RELEASE MODE MAIN SECTION:
-	randomInserts;
+	if (3 != 5)
+	{
+		randomInserts;
+	}
+	else {
+		i = 89;
+	}
 	goto TRAP_CARD;
 
 
 DO_MATH:
-	randomInserts;
+	if (4 != 6)
+	{
+		randomInserts;
+	}
+	else {
+		i = 4;
+	}
+
 	if (doCheckConvert(argv[1], argv[2])) {
 		printf("A WINNER IS YOU!\n");
 	}
 	else {
 		printf("You lose");
 	}
-	randomInserts;
+
+	if (10 == 30)
+	{
+		i = 100;
+	}
+	else {
+		randomInserts;
+	}
+
 	goto LAME_EXIT;
 ARG_CHECK:
 	if (argc != 3) {
@@ -233,7 +277,14 @@ ARG_CHECK:
 	goto DO_MATH;
 
 TRAP_CARD:
-	randomInserts;
+	if (1 == 2)
+	{
+		i = 10;
+	}
+	else {
+		randomInserts;
+	}
+	
 
 	BOOL exceptionHit = FALSE;
 
@@ -256,10 +307,21 @@ TRAP_CARD:
 	//printf("Check on debugger\n");
 	if (!exceptionHit) {
 		//printf("YOU'VE ACTIVATED MY TRAP CARD!\n");
-		u = u >> 3;
-		k = k << 3;
+		/*u = u >> 3;
+		k = k << 3;*/
+		__asm {
+			ror [u], 3;
+			rol [k], 3;
+		}
 	}
-	randomInserts;
+
+	if (2 != 3) {
+		randomInserts;
+	}
+	else {
+		i = 42;
+	}
+	
 	goto ARG_CHECK;
 LAME_EXIT:
 	getc(stdin);
