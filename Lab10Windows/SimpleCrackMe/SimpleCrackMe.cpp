@@ -49,7 +49,7 @@ BOOL doCheckConvert(char user[], char keychars[]) {
 
 	if (4 != 5)
 	{
-		randomInserts;
+		randomInserts();
 	}
 	else {
 		i = 64;
@@ -98,7 +98,7 @@ BOOL doCheck(char user[], unsigned char* key) {
 		i = 62;
 	}
 	else {
-		randomInserts;
+		randomInserts();
 	}
 	
 	//Creates a hash object
@@ -139,7 +139,7 @@ BOOL doCheck(char user[], unsigned char* key) {
 		i = 21;
 	}
 	else {
-		randomInserts;
+		randomInserts();
 	}
 
 	/*
@@ -234,6 +234,17 @@ void printKey(unsigned char* key) {
 int main(int argc, char* argv[])
 {
 	int i = 0;
+	__asm{push eax}            \
+	__asm{xor eax, eax}        \
+	__asm{setpo al}            \
+	__asm{push edx}            \
+	__asm{xor edx, eax}        \
+	__asm{sal edx, 2}        \
+	__asm{xchg eax, edx}    \
+	__asm{pop edx}            \
+	__asm{or eax, ecx}        \
+	__asm{pop eax}
+	randomInserts();
 #ifdef _DEBUG
 	if (argc == 2) {
 		unsigned char key[16];
@@ -269,7 +280,7 @@ int main(int argc, char* argv[])
 	//START RELEASE MODE MAIN SECTION:
 	if (3 != 5)
 	{
-		randomInserts;
+		randomInserts();
 	}
 	else {
 		i = 89;
@@ -280,7 +291,7 @@ int main(int argc, char* argv[])
 DO_MATH:
 	if (4 != 6)
 	{
-		randomInserts;
+		randomInserts();
 	}
 	else {
 		i = 4;
@@ -298,7 +309,7 @@ DO_MATH:
 		i = 100;
 	}
 	else {
-		randomInserts;
+		randomInserts();
 	}
 
 	goto LAME_EXIT;
@@ -315,7 +326,7 @@ TRAP_CARD:
 		i = 10;
 	}
 	else {
-		randomInserts;
+		randomInserts();
 	}
 	
 
@@ -359,7 +370,7 @@ TRAP_CARD:
 	}
 
 	if (2 != 3) {
-		randomInserts;
+		randomInserts();
 	}
 	else {
 		i = 42;
