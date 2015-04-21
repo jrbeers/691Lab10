@@ -80,6 +80,7 @@ BOOL doCheck(char user[], unsigned char* key) {
 	BOOL bResult = FALSE;
 	int i = 0;
 
+	//This section acquires a crypto package handle
 	bResult = CryptAcquireContext(
 		&hProv,					//OUT HCRYPTPROV *phProv
 		NULL,					//IN LPCTSTR pszContainter
@@ -91,7 +92,7 @@ BOOL doCheck(char user[], unsigned char* key) {
 	}
 
 	//DEBUGLINE;
-
+	//Do false eval, calls junk code function
 	if (87 == 6)
 	{
 		i = 62;
@@ -99,7 +100,8 @@ BOOL doCheck(char user[], unsigned char* key) {
 	else {
 		randomInserts;
 	}
-
+	
+	//Creates a hash object
 	bResult = CryptCreateHash(
 		hProv,							//IN HCRYPTPROV hProv
 		CALG_SHA1,						//IN ALG_ID Algid //0x00008004 = CALG_SHA and CALG_SHA1
@@ -115,6 +117,7 @@ BOOL doCheck(char user[], unsigned char* key) {
 
 	//DEBUGLINE;
 
+	//Hashes user data with above hash object
 	bResult = CryptHashData(
 		hHash,					//IN HCRYPTHASH hHash
 		(const BYTE*)user,		//IN BYTE *pbData
@@ -129,7 +132,8 @@ BOOL doCheck(char user[], unsigned char* key) {
 	}
 
 	//DEBUGLINE;
-
+	
+	//Another false condition, calls junk function
 	if (47 == 8)
 	{
 		i = 21;
@@ -138,6 +142,12 @@ BOOL doCheck(char user[], unsigned char* key) {
 		randomInserts;
 	}
 
+	/*
+	Extracts the key from above hash object
+	sha1Data[] = hash of user
+	cbHash = length of hash
+	bResult = pass/fail for function call
+	*/
 	BYTE sha1Data[20] = { 0 };
 	DWORD cbHash = sizeof(sha1Data);
 	bResult = CryptGetHashParam(
@@ -155,7 +165,8 @@ BOOL doCheck(char user[], unsigned char* key) {
 	}
 
 	//DEBUGLINE;
-
+	
+	//Free Crypto handle and onject
 	CryptReleaseContext(
 		hProv,				//IN HCRYPTPROV hProv
 		0);					//DWORD dwFlags //always == 0
@@ -163,39 +174,60 @@ BOOL doCheck(char user[], unsigned char* key) {
 
 	//DEBUGLINE;
 
+
+	//Prints out hash
 #if 0
 	printf("SHA1(user) = ");
 	for (int i = 0; i < cbHash; i++) {
 		printf("%02hhx", sha1Data[i]);
 	}
-	printf("\n");
+	//printf("\n");
 #endif
 
+	//Comparison of user hash with user inputed key
+	/*
+	//Unmodified code from Dan
+	WORD checkSHA1 = 0;
+
+	for (int i = 0; i < cbHash; i++) {
+		checkSHA1 *= 31;
+		checkSHA1 += sha1Data[i];
+	}
+
+	WORD checkKey = 0;
+	for (int i = 0; i < 16; i++) {
+		checkKey *= 127;
+		checkKey += key[i];
+	}
+	*/
+	
 	WORD checkSHA1 = 1;
 	for (int i = cbHash - 1; i >= 0; i--) {
-		checkSHA1 *= u;
+		checkSHA1 *= u; //31
 		checkSHA1 += sha1Data[i];
 	}
 
 	WORD checkKey = 1;
 	for (int i = 15; i >= 0; i--) {
-		checkKey *= k;
+		checkKey *= k; //127
 		checkKey += key[i];
 	}
+	
 
 #ifdef _DEBUG
-	printf("checkSHA1 = %x, checkKey = %x\n", checkSHA1, checkKey);
+	printf(" checkSHA1 = %x, checkKey = %x", checkSHA1, checkKey);
 #endif
 
 	return checkSHA1 == checkKey;
 }
 
 void printKey(unsigned char* key) {
+	printf("\n");
 	printf("Key: ");
 	for (int i = 0; i < 16; i++) {
 		printf("%02hhx", key[i]);
 	}
-	printf("\n");
+	
 }
 
 int main(int argc, char* argv[])
