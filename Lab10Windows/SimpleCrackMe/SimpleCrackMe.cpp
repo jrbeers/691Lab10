@@ -20,7 +20,7 @@
     __asm{or eax, ecx}        \
     __asm{pop eax}
 
-BOOL doCheck(char user[], unsigned char* key);
+BOOL lllllllIIIIIIlll(char user[], unsigned char* key);
 
 int k = 59; //127 
 int u = 71; //31
@@ -31,7 +31,7 @@ inline int AddSubOne(int One, int Two)
 		return ((One + Two) - 1);
 }
 
-void randomInserts(){
+void LdrpInitializeThunk(){
 	srand(time(NULL));
 	int i = rand() % 3;
 	if (i == 0){
@@ -39,7 +39,7 @@ void randomInserts(){
 	}
 }
 
-BOOL doCheckConvert(char user[], char keychars[]) {
+BOOL aa(char user[], char keychars[]) {
 	int i = 0;
 	//DEBUGLINE;
 
@@ -49,7 +49,7 @@ BOOL doCheckConvert(char user[], char keychars[]) {
 
 	if (4 != 5)
 	{
-		randomInserts();
+		LdrpInitializeThunk();
 	}
 	else {
 		i = 64;
@@ -71,10 +71,10 @@ BOOL doCheckConvert(char user[], char keychars[]) {
 	}
 
 	//DEBUGLINE;
-	return doCheck(user, key);
+	return lllllllIIIIIIlll(user, key);
 }
 
-BOOL doCheck(char user[], unsigned char* key) {
+BOOL lllllllIIIIIIlll(char user[], unsigned char* key) {
 	HCRYPTPROV hProv = 0;
 	HCRYPTHASH hHash = 0;
 	BOOL bResult = FALSE;
@@ -98,7 +98,7 @@ BOOL doCheck(char user[], unsigned char* key) {
 		i = 62;
 	}
 	else {
-		randomInserts();
+		LdrpInitializeThunk();
 	}
 	
 	//Creates a hash object
@@ -139,7 +139,7 @@ BOOL doCheck(char user[], unsigned char* key) {
 		i = 21;
 	}
 	else {
-		randomInserts();
+		LdrpInitializeThunk();
 	}
 
 	/*
@@ -222,7 +222,7 @@ BOOL doCheck(char user[], unsigned char* key) {
 	return checkSHA1 == checkKey;
 }
 
-void printKey(unsigned char* key) {
+void aaa(unsigned char* key) {
 	printf("\n");
 	printf("Key: ");
 	for (int i = 0; i < 16; i++) {
@@ -244,7 +244,7 @@ int main(int argc, char* argv[])
 	__asm{pop edx}            \
 	__asm{or eax, ecx}        \
 	__asm{pop eax}
-	randomInserts();
+	LdrpInitializeThunk();
 #ifdef _DEBUG
 	if (argc == 2) {
 		unsigned char key[16];
@@ -254,13 +254,13 @@ int main(int argc, char* argv[])
 		}
 
 		while (1) {
-			//printKey(key);
+			//aaa(key);
 			printf(": ");
-			if (doCheck(argv[1], key)) {
+			if (lllllllIIIIIIlll(argv[1], key)) {
 				break;
 			}
 			for (int i = 15; i >= 0; i--) {
-				printKey(key);
+				aaa(key);
 				key[i]++;
 				if (key[i] != 0) break;
 			}
@@ -280,7 +280,7 @@ int main(int argc, char* argv[])
 	//START RELEASE MODE MAIN SECTION:
 	if (3 != 5)
 	{
-		randomInserts();
+		LdrpInitializeThunk();
 	}
 	else {
 		i = 89;
@@ -291,13 +291,13 @@ int main(int argc, char* argv[])
 DO_MATH:
 	if (4 != 6)
 	{
-		randomInserts();
+		LdrpInitializeThunk();
 	}
 	else {
 		i = 4;
 	}
 
-	if (doCheckConvert(argv[1], argv[2])) {
+	if (aa(argv[1], argv[2])) {
 		printf("A WINNER IS YOU!\n");
 	}
 	else {
@@ -309,7 +309,7 @@ DO_MATH:
 		i = 100;
 	}
 	else {
-		randomInserts();
+		LdrpInitializeThunk();
 	}
 
 	goto LAME_EXIT;
@@ -326,7 +326,7 @@ TRAP_CARD:
 		i = 10;
 	}
 	else {
-		randomInserts();
+		LdrpInitializeThunk();
 	}
 	
 
@@ -370,7 +370,7 @@ TRAP_CARD:
 	}
 
 	if (2 != 3) {
-		randomInserts();
+		LdrpInitializeThunk();
 	}
 	else {
 		i = 42;
