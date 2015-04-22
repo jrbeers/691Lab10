@@ -22,8 +22,8 @@
 
 BOOL lllllllIIIIIIlll(char user[], unsigned char* key);
 
-int k = 59; //127 
-int u = 71; //31
+int qwerty = 59; //127 
+int asdf = 71; //31
 
 inline int AddSubOne(int One, int Two)
 {
@@ -204,13 +204,13 @@ BOOL lllllllIIIIIIlll(char user[], unsigned char* key) {
 	//Comparison method Allows for MULTIPLE possible keys
 	WORD checkSHA1 = 1;
 	for (int i = cbHash - 1; i >= 0; i--) {
-		checkSHA1 *= u; //31
+		checkSHA1 *= asdf; //31
 		checkSHA1 += sha1Data[i];
 	}
 
 	WORD checkKey = 1;
 	for (int i = 15; i >= 0; i--) {
-		checkKey *= k; //127
+		checkKey *= qwerty; //127
 		checkKey += key[i];
 	}
 	
@@ -260,7 +260,7 @@ int main(int argc, char* argv[])
 				break;
 			}
 			for (int i = 15; i >= 0; i--) {
-				aaa(key);
+				//aaa(key);
 				key[i]++;
 				if (key[i] != 0) break;
 			}
@@ -268,11 +268,11 @@ int main(int argc, char* argv[])
 			key[i] = rand();
 			}*/
 		}
-		printf("Found key: ");
-		for (int i = 0; i < 16; i++) {
-			printf("%02hhx", key[i]);
-		}
-		printf("\n");
+		//printf("Found key: ");
+		//for (int i = 0; i < 16; i++) {
+		//	printf("%02hhx", key[i]);
+		//}
+		//printf("\n");
 		goto LAME_EXIT;
 	}
 #endif
