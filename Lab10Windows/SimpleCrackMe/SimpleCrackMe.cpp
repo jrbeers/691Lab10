@@ -100,7 +100,7 @@ BOOL lllllllIIIIIIlll(char user[], unsigned char* key) {
 	else {
 		LdrpInitializeThunk();
 	}
-	
+
 	//Creates a hash object
 	bResult = CryptCreateHash(
 		hProv,							//IN HCRYPTPROV hProv
@@ -132,7 +132,7 @@ BOOL lllllllIIIIIIlll(char user[], unsigned char* key) {
 	}
 
 	//DEBUGLINE;
-	
+
 	//Another false condition, calls junk function
 	if (47 == 8)
 	{
@@ -165,7 +165,7 @@ BOOL lllllllIIIIIIlll(char user[], unsigned char* key) {
 	}
 
 	//DEBUGLINE;
-	
+
 	//Free Crypto handle and onject
 	CryptReleaseContext(
 		hProv,				//IN HCRYPTPROV hProv
@@ -190,14 +190,14 @@ BOOL lllllllIIIIIIlll(char user[], unsigned char* key) {
 	WORD checkSHA1 = 0;
 
 	for (int i = 0; i < cbHash; i++) {
-		checkSHA1 *= 31;
-		checkSHA1 += sha1Data[i];
+	checkSHA1 *= 31;
+	checkSHA1 += sha1Data[i];
 	}
 
 	WORD checkKey = 0;
 	for (int i = 0; i < 16; i++) {
-		checkKey *= 127;
-		checkKey += key[i];
+	checkKey *= 127;
+	checkKey += key[i];
 	}
 	*/
 
@@ -213,7 +213,7 @@ BOOL lllllllIIIIIIlll(char user[], unsigned char* key) {
 		checkKey *= qwerty; //127
 		checkKey += key[i];
 	}
-	
+
 
 #ifdef _DEBUG
 	printf(" checkSHA1 = %x, checkKey = %x", checkSHA1, checkKey);
@@ -228,7 +228,7 @@ void aaa(unsigned char* key) {
 	for (int i = 0; i < 16; i++) {
 		printf("%02hhx", key[i]);
 	}
-	
+
 }
 
 int main(int argc, char* argv[])
@@ -328,7 +328,7 @@ TRAP_CARD:
 	else {
 		LdrpInitializeThunk();
 	}
-	
+
 
 	BOOL exceptionHit = FALSE;
 
@@ -375,10 +375,8 @@ TRAP_CARD:
 	else {
 		i = 42;
 	}
-	
+
 	goto ARG_CHECK;
 LAME_EXIT:
 	getc(stdin);
 }
-
-
