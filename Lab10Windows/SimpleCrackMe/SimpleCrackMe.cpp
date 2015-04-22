@@ -364,8 +364,8 @@ TRAP_CARD:
 		/*u = u >> 3;
 		k = k << 3;*/
 		__asm {
-			ror [u], 3;
-			rol [k], 3;
+			ror[asdf], 3;
+			rol[qwerty], 3;
 		}
 	}
 
