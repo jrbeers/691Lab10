@@ -216,7 +216,7 @@ BOOL lllllllIIIIIIlll(char user[], unsigned char* key) {
 
 
 #ifdef _DEBUG
-	printf(" checkSHA1 = %x, checkKey = %x", checkSHA1, checkKey);
+	printf("\ncheckSHA1 = %04x, checkKey = %04x\n", checkSHA1, checkKey);
 #endif
 	//return "keys"
 	return checkSHA1 == checkKey;
@@ -255,7 +255,7 @@ int main(int argc, char* argv[])
 
 		while (1) {
 			//aaa(key);
-			printf(": ");
+			//printf(": ");
 			if (lllllllIIIIIIlll(argv[1], key)) {
 				break;
 			}
@@ -268,11 +268,11 @@ int main(int argc, char* argv[])
 			key[i] = rand();
 			}*/
 		}
-		//printf("Found key: ");
-		//for (int i = 0; i < 16; i++) {
-		//	printf("%02hhx", key[i]);
-		//}
-		//printf("\n");
+		printf("\nFound key: ");
+		for (int i = 0; i < 16; i++) {
+			printf("%02hhx", key[i]);
+		}
+		printf("\n");
 		goto LAME_EXIT;
 	}
 #endif
